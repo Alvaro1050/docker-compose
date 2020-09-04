@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: vuejs-deploy
+spec:
+    selector:
+        matchLabels:
+            app: vuejs-deploy
+    template:
+        metadata:
+            labels:
+                app: vuejs-deploy
+        spec:
+            containers:
+                - name: vuejs-deploy
+                  image: alejandro1050/vuejs-front:1.0
+                  ports:
+                  - containerPort: 8080
+                  env:
+                  - name: DB_NAME
+                    valueFrom:
+                        configMapKeyRef:
+                            name: db-config
+                            key: db_name
+                  - name: DB_PORT
+                    valueFrom:
+                        configMapKeyRef:
+                            name: db-config
+                            key: db_port
+                  - name: DB_USER
+                    valueFrom:
+                        secretKeyRef:
+                            name: postgres-secrets
+                            key: db_username
+                  - name: DB_PASS
+                    valueFrom:
+                        secretKeyRef:
+                            name: postgres-secrets
+                            key: db_password

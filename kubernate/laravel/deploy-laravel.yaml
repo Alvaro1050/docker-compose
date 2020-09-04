@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: laravel-deploy
+spec:
+    selector:
+        matchLabels:
+            app: laravel-deploy
+    template:
+        metadata:
+            labels:
+                app: laravel-deploy
+        spec:
+            containers:
+                - name: laravel-deploy
+                  image: alejandro1050/back-laravel:1.0
+                  ports:
+                  - containerPort: 5000
+                  env:
+                    - name: DB_DATABASE
+                      valueFrom:
+                          configMapKeyRef:
+                              name: db-config
+                              key: db_name
+                    - name: DB_HOST
+                      value: postgres
+                    - name: DB_PORT
+                      valueFrom:
+                          configMapKeyRef:
+                              name: db-config
+                              key: db_port
+                    - name: DB_USERNAME
+                      valueFrom:
+                          secretKeyRef:
+                              name: postgres-secrets
+                              key: db_username
+                    - name: DB_PASSWORD
+                      valueFrom:
+                          secretKeyRef:
+                              name: postgres-secrets
+                              key: db_password
+                    - name: DB_CONNECTION
+                      value: pgsql
