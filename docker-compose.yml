@@ -7,29 +7,23 @@ services:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres   
         ports:
-          - 5436:5432
-
+          - 5432:5432
+    laravel:
+        image: alejandro1050/back-laravel:1.0
+        environment: 
+          DB_CONNECTION: pgsql
+          DB_HOST: 'postgres_db'
+          DB_PORT: 5432
+          DB_DATABASE: postgres
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
+        ports: 
+                - 8000:8000
+        depends_on:
+                - postgres_db
     vuejs:
         image: alejandro1050/vuejs-front:1.0
-        environment: 
-            DB_NAME: postgres
-            DB_USER: postgres
-            DB_PASS: 1234
-            DB_HOST: 'postgres_database'
-            DB_PORT: 5432
         ports: 
             - 8080:8080
         depends_on:
             - postgres_db
-    net:
-        image: alejandro1050/back-net:1.0
-        environment: 
-            DB_NAME: postgres
-            DB_USER: postgres
-            DB_PASS: 1234
-            DB_HOST: 'postgres_database'
-            DB_PORT: 5432
-        ports: 
-                - 5000:5000
-        depends_on:
-                - postgres_db
