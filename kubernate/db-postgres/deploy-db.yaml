@@ -32,3 +32,11 @@ spec:
                     secretKeyRef:
                         name: postgres-secrets
                         key: db_password
+              volumeMounts:
+              - mountPath: /var/lib/postgresql/data
+                name: postgres-volume-mount
+                subPath: postgresdb
+            volumes:
+            - name: postgres-volume-mount
+              persistentVolumeClaim:
+                claimName: postgres-pvc
