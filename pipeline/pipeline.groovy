@@ -40,7 +40,7 @@ pipeline {
         stage("Push image") {
             steps {
                 script {
-                    docker.withRegistry('', 'dockerhubclase') {
+                    docker.withRegistry('', 'alvarodocker') {
                     dockerImage.push()
                     }
                 }
